@@ -1,12 +1,19 @@
 # Neural Manifold Visualization
 
-This script creates an animated visualization of neural manifolds using the Nengo framework. It simulates three spiking neurons and displays both their spike trains and the resulting trajectory in 3D space.
+This repo provides Python examples for visualizing the manifolds.
 
 ## Overview
+
+```python neural_manifolds.py```
 
 The visualization consists of two main components:
 1. A spike raster plot showing the firing patterns of three individual neurons
 2. A 3D trajectory plot showing the neural manifold (the path traced by the combined neural activity)
+
+```python umap_example.py```
+Example of how to use UMAP for visualization of latent space.
+1. A neural network learns to classify MNIST digits
+2. Visualize the latent space using UMAP during training
 
 ## Installation
 
