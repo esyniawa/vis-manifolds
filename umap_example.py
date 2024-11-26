@@ -98,6 +98,7 @@ class LatentSpaceVisualizer:
             ax1.set_title(f'Latent Space (Batch {self.batch_numbers[frame]})')
             ax1.set_xlabel('UMAP 1')
             ax1.set_ylabel('UMAP 2')
+            ax1.set_xlim(-20, 20), ax1.set_ylim(-20, 20)
 
             # Plot loss history
             ax2.plot(self.batch_numbers[:frame + 1], self.loss_history[:frame + 1], 'b-')
@@ -136,10 +137,10 @@ def train_and_visualize():
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
     # Initialize visualizer
-    visualizer = LatentSpaceVisualizer(test_loader, update_frequency=50)
+    visualizer = LatentSpaceVisualizer(test_loader, update_frequency=1)
 
     # Training loop
-    num_epochs = 3  # Reduced epochs since we're saving more frequently
+    num_epochs = 2  # Reduced epochs since we're saving more frequently
 
     print("Training and collecting visualizations...")
     for epoch in range(num_epochs):

@@ -124,7 +124,7 @@ plt.tight_layout()
 # Save as MP4 (high quality)
 try:
     print("Saving MP4...")
-    writer_mp4 = FFMpegWriter(fps=30, bitrate=2000)
+    writer_mp4 = FFMpegWriter(fps=10, bitrate=2000)
     anim.save('neural_manifold.mp4', writer=writer_mp4)
 except Exception as e:
     print(f"Could not save MP4 (requires ffmpeg): {e}")
@@ -133,7 +133,7 @@ except Exception as e:
 
 # Save as GIF (more compatible)
 print("Saving GIF...")
-writer_gif = PillowWriter(fps=30)
+writer_gif = PillowWriter(fps=10)
 anim.save('neural_manifold.gif', writer=writer_gif)
 
 if show_animation:
