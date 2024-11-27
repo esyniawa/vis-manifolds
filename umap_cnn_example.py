@@ -135,7 +135,7 @@ def train_and_visualize():
     model = CNNEncoder(latent_dim=32)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-    visualizer = LatentSpaceVisualizer(test_loader, update_frequency=50)
+    visualizer = LatentSpaceVisualizer(test_loader, update_frequency=1)
 
     print("Training CNN and collecting visualizations...")
     for epoch in range(3):
