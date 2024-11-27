@@ -98,7 +98,7 @@ class LatentSpaceVisualizer:
             ax1.set_title(f'Latent Space (Batch {self.batch_numbers[frame]})')
             ax1.set_xlabel('UMAP 1')
             ax1.set_ylabel('UMAP 2')
-            ax1.set_xlim(-20, 20), ax1.set_ylim(-20, 20)
+            ax1.set_xlim(-25, 25), ax1.set_ylim(-25, 25)
 
             # Plot loss history
             ax2.plot(self.batch_numbers[:frame + 1], self.loss_history[:frame + 1], 'b-')

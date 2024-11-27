@@ -104,6 +104,7 @@ class LatentSpaceVisualizer:
             ax1.set_title(f'CNN Latent Space (Batch {self.batch_numbers[frame]})')
             ax1.set_xlabel('UMAP 1')
             ax1.set_ylabel('UMAP 2')
+            ax1.set_xlim(-25, 25), ax1.set_ylim(-25, 25)
 
             ax2.plot(self.batch_numbers[:frame + 1], self.loss_history[:frame + 1], 'b-')
             ax2.set_title('Training Loss')
