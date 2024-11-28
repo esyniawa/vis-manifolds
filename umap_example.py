@@ -45,7 +45,10 @@ class LatentSpaceVisualizer:
         self.batch_numbers = []
 
         # Initialize UMAP reducer
-        self.reducer = umap.UMAP(random_state=42)
+        self.reducer = umap.UMAP(n_neighbors=30,
+            min_dist=0.3,
+            metric='euclidean',
+            random_state=42)
         self.scaler = StandardScaler()
 
         # Get all test data for consistent UMAP transformation
