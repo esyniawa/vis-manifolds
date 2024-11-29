@@ -143,6 +143,7 @@ class LatentSpaceVisualizer:
             ax2.clear()
             ax3.clear()
 
+            # UMAP plot
             scatter = ax1.scatter(self.embeddings_history[frame][:, 0],
                                   self.embeddings_history[frame][:, 1],
                                   c=self.labels_history[frame],
@@ -152,23 +153,31 @@ class LatentSpaceVisualizer:
             ax1.set_ylabel('UMAP 2')
             ax1.set_xlim(-25, 25), ax1.set_ylim(-25, 25)
 
-            # Plot smoothed loss
-            window = 10
-            smoothed_loss = np.convolve(self.loss_history[:frame + 1],
-                                        np.ones(window) / window, mode='valid')
-            ax2.plot(self.batch_numbers[:frame + 1], self.loss_history[:frame + 1],
-                     'b-', alpha=0.3, label='Raw')
-            if len(smoothed_loss) > 0:
-                ax2.plot(self.batch_numbers[window - 1:frame + 1], smoothed_loss,
-                         'r-', label='Smoothed')
+            # Loss plot with smoothing
+            current_losses = self.loss_history[:frame + 1]
+            current_batches = self.batch_numbers[:frame + 1]
+
+            # Plot raw loss
+            ax2.plot(current_batches, current_losses, 'b-', alpha=0.3, label='Raw')
+
+            # Plot smoothed loss only if we have enough data points
+            if len(current_losses) > 10:
+                window = 10
+                smoothed_loss = np.convolve(current_losses,
+                                            np.ones(window) / window,
+                                            mode='valid')
+                smooth_batches = current_batches[window - 1:]
+                ax2.plot(smooth_batches, smoothed_loss, 'r-', label='Smoothed')
+
             ax2.set_title('Training Loss')
             ax2.set_xlabel('Batch Number')
             ax2.set_ylabel('Loss')
             ax2.set_yscale('log')
             ax2.legend()
 
-            # Plot accuracy
-            ax3.plot(self.batch_numbers[:frame + 1], self.accuracy_history[:frame + 1], 'g-')
+            # Accuracy plot
+            ax3.plot(current_batches,
+                     self.accuracy_history[:frame + 1], 'g-')
             ax3.set_title('Accuracy')
             ax3.set_xlabel('Batch Number')
             ax3.set_ylabel('Accuracy')
@@ -176,12 +185,18 @@ class LatentSpaceVisualizer:
 
             plt.tight_layout()
 
-        anim = FuncAnimation(fig, update, frames=len(self.embeddings_history),
-                             interval=100, repeat=True)
+            # Return artist objects (required for animation)
+            return scatter,
+
+        # Create and save animation
+        anim = FuncAnimation(fig, update,
+                             frames=len(self.embeddings_history),
+                             interval=100,
+                             blit=False)  # Set blit=False for more stable animation
+
         writer = PillowWriter(fps=10)
         anim.save(save_path, writer=writer)
         plt.close()
-
 
 def train_and_visualize():
     # Set seeds for reproducibility
@@ -203,8 +218,8 @@ def train_and_visualize():
     train_dataset = datasets.MNIST('./data', train=True, download=True, transform=train_transform)
     test_dataset = datasets.MNIST('./data', train=False, transform=test_transform)
 
-    train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=128, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=256, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=256, shuffle=False)
 
     model = CNNEncoder(latent_dim=32, dropout_rate=0.2)
     criterion = nn.CrossEntropyLoss()
@@ -216,7 +231,7 @@ def train_and_visualize():
     visualizer = LatentSpaceVisualizer(test_loader, update_frequency=1)
 
     print("Training CNN and collecting visualizations...")
-    for epoch in range(5):  # Increased epochs
+    for epoch in range(3):
         model.train()
         epoch_loss = 0
         for batch_idx, (data, target) in enumerate(tqdm(train_loader)):
