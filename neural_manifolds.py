@@ -44,7 +44,7 @@ with nengo.Simulator(model) as sim:
     sim.run(10.0)
 
 # Create the animation
-fig = plt.figure(figsize=(15, 5))
+fig = plt.figure(figsize=(16, 7))
 ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122, projection='3d')
 
@@ -68,7 +68,7 @@ def update(frame):
     end_idx = int(frame)
 
     ax1.set_yticks([0, 1, 2])
-    ax1.set_yticklabels(['Neuron 1', 'Neuron 2', 'Neuron 3'])
+    ax1.set_yticklabels(['X', 'Y', 'Z'])
 
     for i in range(3):
         spikes = sim.data[spike_probe][start_idx:end_idx, i]
