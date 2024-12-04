@@ -1,6 +1,7 @@
 import torch
 import matplotlib.pyplot as plt
 import umap
+import numpy as np
 from sklearn.preprocessing import StandardScaler
 from matplotlib.animation import FuncAnimation, PillowWriter
 
