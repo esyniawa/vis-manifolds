@@ -52,7 +52,7 @@ def train_and_visualize():
     visualizer = LatentSpaceVisualizer(test_loader, update_frequency=1)
 
     # Training loop
-    num_epochs = 2
+    num_epochs = 3
 
     for epoch in range(num_epochs):
         model.train()

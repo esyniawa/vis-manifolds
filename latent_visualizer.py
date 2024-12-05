@@ -57,11 +57,18 @@ class LatentSpaceVisualizer:
             model.train()
 
     def create_animation(self, save_path='latent_space_animation.gif'):
-        fig = plt.figure(figsize=(15, 5))
+        fig = plt.figure(figsize=(16, 7))
         gs = plt.GridSpec(1, 3, width_ratios=[1.5, 1, 1])
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
         ax3 = plt.subplot(gs[2])
+
+        # Create color map and prepare legend elements
+        cmap = plt.cm.tab10
+        legend_elements = [plt.Line2D([0], [0], marker='o', color='w',
+                                      markerfacecolor=cmap(i), label=f'Digit {i}',
+                                      markersize=8)
+                           for i in range(10)]
 
         def update(frame):
             ax1.clear()
@@ -77,6 +84,9 @@ class LatentSpaceVisualizer:
             ax1.set_xlabel('UMAP 1')
             ax1.set_ylabel('UMAP 2')
             ax1.set_xlim(-25, 25), ax1.set_ylim(-25, 25)
+            # Add legend
+            ax1.legend(handles=legend_elements, title='Digits',
+                       bbox_to_anchor=(1.05, 1), loc='upper left', fontsize=6)
 
             # Loss plot with smoothing
             current_losses = self.loss_history[:frame + 1]
