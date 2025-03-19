@@ -48,6 +48,10 @@ fig = plt.figure(figsize=(16, 7))
 ax1 = fig.add_subplot(121)
 ax2 = fig.add_subplot(122, projection='3d')
 
+for ax in [ax1, ax2]:
+    ax.patch.set_alpha(0.0)
+    ax.set_facecolor('none')
+
 neuron_colors = ['#ff7f0e', '#2ca02c', '#1f77b4']
 
 
