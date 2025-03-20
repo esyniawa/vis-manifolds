@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import umap
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from matplotlib.animation import FuncAnimation, PillowWriter
+from matplotlib.animation import FuncAnimation, PillowWriter, FFMpegWriter
 
 
 class LatentSpaceVisualizer:
@@ -126,6 +126,15 @@ class LatentSpaceVisualizer:
                              interval=100,
                              blit=False)
 
-        writer = PillowWriter(fps=10)
-        anim.save(save_path, writer=writer)
-        plt.close()
+        # Save as MP4 (high quality)
+        try:
+            print("Saving MP4...")
+            writer_mp4 = FFMpegWriter(fps=10, bitrate=2000)
+            anim.save(save_path, writer=writer_mp4)
+        except Exception as e:
+            print(f"Could not save MP4 (requires ffmpeg): {e}")
+            print("Try installing ffmpeg with: sudo apt-get install ffmpeg")
+            print("Saving GIF instead...")
+            writer = PillowWriter(fps=10)
+            anim.save(save_path, writer=writer)
+            plt.close()

@@ -1,5 +1,9 @@
 *media*
 *~
+*.gif
+*.mp4
+*data/*
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

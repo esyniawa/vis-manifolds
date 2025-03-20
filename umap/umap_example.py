@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -72,8 +73,12 @@ def train_and_visualize(device: torch.device):
             visualizer.update(model, batch_idx + epoch * len(train_loader), loss.item(), accuracy)
 
     print("Creating animation...")
+    save_path = 'media/latent_space_animation.mp4'
+    save_folder, _ = os.path.split(save_path)
+    if save_folder: os.makedirs(save_folder, exist_ok=True)
+
     visualizer.create_animation()
-    print("Animation saved as 'latent_space_animation.gif'")
+    print("Animation saved as 'latent_space_animation.mp4'")
 
 
 if __name__ == "__main__":

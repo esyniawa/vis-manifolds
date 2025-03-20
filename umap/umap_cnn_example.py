@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -137,8 +138,12 @@ def train_and_visualize(device: torch.device):
         scheduler.step(avg_epoch_loss)
 
     print("Creating animation...")
-    visualizer.create_animation('stable_cnn_latent_space_animation.gif')
-    print("Animation saved as 'stable_cnn_latent_space_animation.gif'")
+    save_path = 'media/cnn_latent_space_animation.mp4'
+    save_folder, _ = os.path.split(save_path)
+    if save_folder: os.makedirs(save_folder, exist_ok=True)
+
+    visualizer.create_animation(save_path)
+    print("Animation saved as 'stable_cnn_latent_space_animation.mp4'")
 
 
 if __name__ == "__main__":
