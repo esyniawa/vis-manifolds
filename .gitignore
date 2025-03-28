@@ -1,5 +1,11 @@
+# PyCharm
+.idea/
+
 *media*
-*~
+*.py~
+*.md~
+
+sketch*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
